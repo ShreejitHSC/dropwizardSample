@@ -1,0 +1,11 @@
+http:
+  port: 8881
+  adminPort: 9880
+
+couchbase.nodes:
+  - http://localhost:8091/pools
+couchbase.bucket: dropwizard-poc
+couchbase.username: ""
+couchbase.password: ""
+couchbase.admin.username: "Administrator"
+couchbase.admin.password: "Tesco123"

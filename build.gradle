@@ -1,0 +1,69 @@
+import static org.gradle.api.JavaVersion.VERSION_1_7
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+
+idea{
+    module{
+        name = "dropwizard-poc"
+    }
+
+    project {
+        jdkName = '1.7'
+        languageLevel = '1.7'
+    }
+}
+
+buildscript {
+    dependencies {
+        classpath fileTree(dir: 'libs',
+        )
+    }
+}
+
+sourceCompatibility = VERSION_1_7
+targetCompatibility = VERSION_1_7
+
+allprojects {
+    def versionNumber = System.getenv("BUILD_NUMBER")
+    if (versionNumber) {
+        project.version = versionNumber
+    } else {
+        project.version = 'developer-build'
+    }
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+
+    compile fileTree(dir: 'libs', include: '*.jar')
+
+
+}
+
+apply plugin: 'application'
+
+mainClassName = 'com.services.ServicesInit'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.services.ServicesInit'
+    }
+}
+
+sourceSets {
+    main {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+    test {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+}
+
+run {
+    maxHeapSize = "1024m"
+    jvmArgs '-Djgroups.bind_addr=localhost'
+    args 'server', 'local.yml'
+}
