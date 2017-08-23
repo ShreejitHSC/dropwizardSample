@@ -8,4 +8,4 @@ couchbase.bucket: dropwizard-poc
 couchbase.username: ""
 couchbase.password: ""
 couchbase.admin.username: "Administrator"
-couchbase.admin.password: "Tesco123"
+couchbase.admin.password: "abc123"
